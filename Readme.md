@@ -42,3 +42,15 @@ http://example.com/login/?guest=C8E91020-7CCD-4364-AB54-3BDE08597C4F
 ### リンクの通知
 
 このURLとユーザーパスワードをメッセージアプリやメール等で対象の招待客に通知する。招待客がこのURLにアクセスすることでログインページが表示される。
+
+## VPS(AWS)環境へのデプロイ方法
+
+manage.pyと同階層に.envファイルを作成し以下の項目を記述する。
+
+```
+SECRET_KEY=(例)piyopiyo
+DEBUG=False
+DATABASE_URL=(例)postgres://djangopg:hogehoge@localhost:/djangopgdb
+```
+
+**settings_local.pyは作成しない。**
