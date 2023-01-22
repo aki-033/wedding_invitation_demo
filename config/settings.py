@@ -14,6 +14,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -137,24 +138,21 @@ try:
 except ImportError:
     pass
 
-# Heroku settings
+
+# AWS settings
 if not DEBUG:
+    # .envから環境変数を読み込み
 
-    # staticの設定
-    import django_heroku
+    env = environ.Env()
+    env.read_env(os.path.join(BASE_DIR, ".env"))
 
-    SECRET_KEY = os.environ['SECRET_KEY']
+    SECRET_KEY = env("SECRET_KEY")
+    # DEBUG = env("DEBUG")
 
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    DATABASES = {
+        'default': env.db(),
+    }
 
     # Static files (CSS, JavaScript, Images)
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STATIC_URL = '/static/'
-
-    # Extra places for collectstatic to find static files.
-    # STATICFILES_DIRS = (
-    #     os.path.join(BASE_DIR, 'static'),
-    # )
-
-    # HerokuのConfigを読み込み
-    django_heroku.settings(locals())
